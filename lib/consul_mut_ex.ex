@@ -30,7 +30,7 @@ defmodule ConsulMutEx do
   """
   @spec acquire_lock(String.t, keyword()) :: {:ok, Lock.t} | :error
   def acquire_lock(key, opts \\ []) do
-     :ok
+     get_backend().acquire_lock(key, opts)
   end
 
   @doc """
@@ -38,7 +38,7 @@ defmodule ConsulMutEx do
   """
   @spec release_lock(Lock.t) :: :ok
   def release_lock(lock) do
-     :ok
+     get_backend().release_lock(lock)
   end
 
   @doc """
@@ -60,6 +60,12 @@ defmodule ConsulMutEx do
           nil -> nil
           els -> els.()
         end
+    end
+  end
+
+  defp get_backend() do
+    case Application.get_env(:consul_mut_ex, :backend) do
+      :ets -> ConsulMutEx.Backends.ETSBackend
     end
   end
 end
