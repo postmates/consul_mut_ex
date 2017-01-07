@@ -2,12 +2,18 @@ defmodule ConsulMutEx.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :consul_mut_ex,
-     version: "0.1.0",
-     elixir: "~> 1.3",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps()]
+    [
+      app: :consul_mut_ex,
+      version: "0.1.0",
+      elixir: "~> 1.3",
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      deps: deps(),
+      docs: [
+        main: "ConsulMutEx",
+        extras: ["README.md"]
+      ]
+    ]
   end
 
   # Configuration for the OTP application
@@ -29,7 +35,8 @@ defmodule ConsulMutEx.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:consul, "~> 1.0"}
+      {:consul, "~> 1.0"},
+      {:ex_doc, "~> 0.14", only: :dev}
     ]
   end
 end

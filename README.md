@@ -57,10 +57,19 @@ iex> ConsulMutEx.release_lock(lock)
 :ok
 ```
 
+
 ## Testing
 
-```elixir
+```sh
 mix test
+```
+
+
+## Documentation
+
+```sh
+mix docs
+open docs/index.html
 ```
 
 

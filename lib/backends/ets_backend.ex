@@ -7,8 +7,8 @@ defmodule ConsulMutEx.Backends.ETSBackend do
   Initialize this backend.
 
   Note: this must be called before this backend is used.
-  TODO: How should this be called by people using this library? Probably in our application start function,
-  based on the config!
+  TODO: How should this be called by people using this library?
+  Probably in our application start function, based on the config!
   """
   @spec init() :: :ok
   def init() do
@@ -21,7 +21,7 @@ defmodule ConsulMutEx.Backends.ETSBackend do
 
   ## Arguments:
 
-    * `key`: A key
+    * `key`: A key to identify the lock
     * `opts`: Options
       * `max_retries`: Maximum number of retries, defaults to 0.
       * `cooldown`: Milliseconds to sleep between retries, defaults to 1000.
@@ -50,6 +50,7 @@ defmodule ConsulMutEx.Backends.ETSBackend do
   @spec release_lock(Lock.t) :: :ok
   def release_lock(lock) do
      :ets.delete(@table, lock.key)
+
      :ok
   end
 

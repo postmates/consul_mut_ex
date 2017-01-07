@@ -1,8 +1,6 @@
 defmodule ConsulMutEx do
   @moduledoc """
 
-  TODO: Add polling mechanism to "refresh" lock
-
   Examples:
 
       iex> Application.put_env(:consul_mut_ex, :backend, :ets)
@@ -26,6 +24,7 @@ defmodule ConsulMutEx do
   alias ConsulMutEx.Lock
 
   @doc """
+  Runs at startup, gets the Supervisor going.
   """
   def start(_type, _args) do
     ConsulMutEx.Supervisor.start_link()
@@ -79,9 +78,9 @@ defmodule ConsulMutEx do
   @doc """
   Initialize the configured backend.
 
-  Note: This will be called when this application is started.
-        If you change the backend after application is loaded,
-        you may need to called this manually.
+  This will be called when this application is started.
+  If you change the backend after application is loaded,
+  you may need to call this manually.
   """
   @spec init() :: :ok
   def init() do
