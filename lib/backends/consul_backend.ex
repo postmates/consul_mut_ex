@@ -1,4 +1,10 @@
 defmodule ConsulMutEx.Backends.ConsulBackend do
+  @moduledoc """
+  Use Hashicorp's Consul KV store to acquire and release locks.
+
+  [Consul documentation](https://www.consul.io/docs/agent/http/kv.html)
+  """
+
   alias Consul.Session
 
   @timeout 1000

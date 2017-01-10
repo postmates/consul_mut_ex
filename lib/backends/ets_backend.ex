@@ -1,14 +1,16 @@
 defmodule ConsulMutEx.Backends.ETSBackend do
+  @moduledoc """
+  Use Erlang's built-in storage to create and release locks.
+  This backend will create a lock per node, not per cluster.
+
+  [ETS documentation](http://erlang.org/doc/man/ets.html)
+  """
 
   @table :consul_mut_ex_locks
   @timeout 1000
 
   @doc """
-  Initialize this backend.
-
-  Note: this must be called before this backend is used.
-  TODO: How should this be called by people using this library?
-  Probably in our application start function, based on the config!
+  Initialize this backend. This must be called before this backend is used.
   """
   @spec init() :: :ok
   def init() do
