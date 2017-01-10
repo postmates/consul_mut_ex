@@ -1,18 +1,13 @@
-defmodule ConsulMutEx.Backends.ETSBackend do
+defmodule ConsulMutEx.Backends.ConsulBackend do
+  alias Consul.Session
 
-  @table :consul_mut_ex_locks
   @timeout 1000
 
   @doc """
   Initialize this backend.
-
-  Note: this must be called before this backend is used.
-  TODO: How should this be called by people using this library?
-  Probably in our application start function, based on the config!
   """
   @spec init() :: :ok
   def init() do
-    :ets.new(@table, [:set, :named_table, :public])
     :ok
   end
 
@@ -23,6 +18,7 @@ defmodule ConsulMutEx.Backends.ETSBackend do
 
     * `key`: A key to identify the lock
     * `opts`: Options
+      * `acquire`: The Consul session ID of the lock
       * `max_retries`: Maximum number of retries, defaults to 0.
       * `cooldown`: Milliseconds to sleep between retries, defaults to 1000.
   """
@@ -32,8 +28,9 @@ defmodule ConsulMutEx.Backends.ETSBackend do
   end
 
   defp do_acquire_lock(key, opts, retries) do
-    session = make_ref()
-    if :ets.insert_new(@table, {key, session}) do
+    session = create_session()
+
+    if Consul.Kv.put(key, session, acquire: session) do
       {:ok, new_lock(key, session)}
     else
       if retries < Keyword.get(opts, :max_retries, 0) do
@@ -50,9 +47,11 @@ defmodule ConsulMutEx.Backends.ETSBackend do
   """
   @spec release_lock(Lock.t) :: :ok
   def release_lock(lock) do
-     :ets.delete(@table, lock.key)
-
-     :ok
+    if Consul.Kv.put(lock.key, lock.session, release: lock.session) do
+      :ok
+    else
+      :error
+    end
   end
 
   @doc """
@@ -60,17 +59,31 @@ defmodule ConsulMutEx.Backends.ETSBackend do
   """
   @spec verify_lock(Lock.t) :: :ok | {:error, any()}
   def verify_lock(lock) do
-    key = lock.key
-    session = lock.session
+    {:ok, resp} = Consul.Kv.fetch(lock.key)
+    session_id = resp.body
+      |> Enum.at(0)
+      |> Map.get("Session")
 
-    case :ets.lookup(@table, key) do
-      [{^key, ^session}] -> :ok # we own it
-      [{^key, other_session}] -> {:error, other_session} # someone else owns it
-      [] -> {:error, nil} # no one owns it
+    cond do
+      session_id == lock.session -> :ok
+      session_id == nil -> {:error, nil}
+      true -> {:error, session_id}
     end
   end
 
   defp new_lock(key, session) do
-    %ConsulMutEx.Lock{key: key, owner: self(), session: session}
+    %ConsulMutEx.Lock{
+      key: key,
+      owner: self(),
+      session: session
+    }
+  end
+
+  def create_session() do
+    {:ok,
+      %HTTPoison.Response{body: %{"ID" => session_id}}
+    } = Session.create(%{})
+
+    session_id
   end
 end

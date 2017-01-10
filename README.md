@@ -26,10 +26,23 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ## Usage
 
-Setup the default backend ([ETS](http://erlang.org/doc/man/ets.html)):
+```elixir
+iex> require ConsulMutEx
+```
+
+Add to config.exs:
 
 ```elixir
-iex> Application.put_env(:consul_mut_ex, :backend, :ets)
+config :consul_mut_ex, :backend, :consul
+config :consul_mut_ex, :consul,
+  host: "my_host"
+```
+
+or through environment vars:
+
+```elixir
+config :consul_mut_ex, :consul,
+  host: { :system, "CONSUL_HOST" }
 ```
 
 Pass in a `do...else` block:
