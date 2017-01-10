@@ -25,7 +25,7 @@ defmodule ConsulMutEx.Backends.ETSBackendTest do
     test "max_retries" do
       key = new_key()
       assert {:ok, _lock} = ETSBackend.acquire_lock(key, max_retries: 0)
-      assert :error == ETSBackend.acquire_lock(key, max_retries: 3)
+      assert :error == ETSBackend.acquire_lock(key, max_retries: 2)
     end
 
     test "times out getting lock"
@@ -33,8 +33,10 @@ defmodule ConsulMutEx.Backends.ETSBackendTest do
 
   describe "release_lock/1" do
     test "successfully releases lock" do
-      {:ok, lock} = ETSBackend.acquire_lock(new_key())
+      key = new_key()
+      {:ok, lock} = ETSBackend.acquire_lock(key)
       assert :ok == ETSBackend.release_lock(lock)
+      assert {:ok, lock} = ETSBackend.acquire_lock(key)
     end
   end
 

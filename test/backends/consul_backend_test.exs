@@ -24,7 +24,7 @@ defmodule ConsulMutEx.Backends.ConsulBackendTest do
     test "max_retries" do
       key = new_key()
       assert {:ok, _lock} = ConsulBackend.acquire_lock(key, max_retries: 0)
-      assert :error == ConsulBackend.acquire_lock(key, max_retries: 3)
+      assert :error == ConsulBackend.acquire_lock(key, max_retries: 2)
     end
 
     test "times out getting lock"
