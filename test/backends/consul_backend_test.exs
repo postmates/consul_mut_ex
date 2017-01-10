@@ -32,8 +32,10 @@ defmodule ConsulMutEx.Backends.ConsulBackendTest do
 
   describe "release_lock/1" do
     test "successfully releases lock" do
-      {:ok, lock} = ConsulBackend.acquire_lock(new_key())
+      key = new_key()
+      {:ok, lock} = ConsulBackend.acquire_lock(key)
       assert :ok == ConsulBackend.release_lock(lock)
+      assert {:ok, lock} = ConsulBackend.acquire_lock(key)
     end
   end
 

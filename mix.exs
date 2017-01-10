@@ -35,17 +35,12 @@ defmodule ConsulMutEx.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-<<<<<<< HEAD
-      {:consul, "~> 1.0"},
-      {:ex_doc, "~> 0.14", only: :dev}
-=======
       {:ex_doc, "~> 0.14", only: :dev},
       # NOTE: This library's master branch does not have support for sessions.
       # Can be on master branch once this PR is pulled:
       # https://github.com/undeadlabs/consul-ex/pull/7
       {:consul, "~> 1.0.0",
         git: "https://github.com/undeadlabs/consul-ex", branch: "sessions"}
->>>>>>> Consul as a backend
     ]
   end
 end
