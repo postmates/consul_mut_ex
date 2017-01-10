@@ -36,7 +36,7 @@ defmodule ConsulMutEx.Backends.ETSBackendTest do
       key = new_key()
       {:ok, lock} = ETSBackend.acquire_lock(key)
       assert :ok == ETSBackend.release_lock(lock)
-      assert {:ok, lock} = ETSBackend.acquire_lock(key)
+      assert {:ok, _lock2} = ETSBackend.acquire_lock(key)
     end
   end
 

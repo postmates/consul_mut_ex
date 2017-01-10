@@ -1,5 +1,6 @@
 defmodule ConsulMutEx.Backends.ConsulBackendTest do
   use ExUnit.Case
+
   alias ConsulMutEx.Backends.ConsulBackend
 
   defp new_key() do
@@ -35,7 +36,7 @@ defmodule ConsulMutEx.Backends.ConsulBackendTest do
       key = new_key()
       {:ok, lock} = ConsulBackend.acquire_lock(key)
       assert :ok == ConsulBackend.release_lock(lock)
-      assert {:ok, lock} = ConsulBackend.acquire_lock(key)
+      assert {:ok, _lock2} = ConsulBackend.acquire_lock(key)
     end
   end
 

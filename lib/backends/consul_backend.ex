@@ -61,12 +61,12 @@ defmodule ConsulMutEx.Backends.ConsulBackend do
   def verify_lock(lock) do
     {:ok, resp} = Consul.Kv.fetch(lock.key)
     session_id = resp.body
-      |> Enum.at(0)
+      |> List.first
       |> Map.get("Session")
 
     cond do
       session_id == lock.session -> :ok
-      session_id == nil -> {:error, nil}
+      is_nil(session_id) -> {:error, nil}
       true -> {:error, session_id}
     end
   end
