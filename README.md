@@ -70,6 +70,26 @@ iex> ConsulMutEx.release_lock(lock)
 :ok
 ```
 
+## Local development
+
+Install consul
+```sh
+$ brew install consul
+$ brew services start consul
+==> Successfully started `consul` (label: homebrew.mxcl.consul)
+```
+
+Test consul works
+```sh
+$ curl -X GET "http://localhost:8500/v1/status/leader"
+"127.0.0.1:8300"
+```
+
+Test you can obtain the lock
+```elixir
+iex> require ConsulMutEx
+iex> {:ok, lock} = ConsulMutEx.acquire_lock("test_key", max_retries: 0)
+```
 
 ## Testing
 
