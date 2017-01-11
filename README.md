@@ -35,7 +35,7 @@ Add to config.exs:
 ```elixir
 config :consul_mut_ex, :backend, :consul
 config :consul_mut_ex, :consul,
-  host: "my_host"
+  host: "http://localhost:8500"
 ```
 
 or through environment vars:
