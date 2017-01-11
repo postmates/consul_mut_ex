@@ -5,7 +5,7 @@ defmodule ConsulMutEx.Mixfile do
     [
       app: :consul_mut_ex,
       version: "0.1.0",
-      elixir: "~> 1.3",
+      elixir: "~> 1.4",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps(),
@@ -20,7 +20,7 @@ defmodule ConsulMutEx.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger],
+    [applications: [:logger, :consul],
      mod: {ConsulMutEx.Supervisor, []}]
   end
 
@@ -35,8 +35,12 @@ defmodule ConsulMutEx.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:consul, "~> 1.0"},
-      {:ex_doc, "~> 0.14", only: :dev}
+      {:ex_doc, "~> 0.14", only: :dev},
+      # NOTE: This library's master branch does not have support for sessions.
+      # Can be on master branch once this PR is pulled:
+      # https://github.com/undeadlabs/consul-ex/pull/7
+      {:consul, "~> 1.0.0",
+        git: "https://github.com/undeadlabs/consul-ex", branch: "sessions"}
     ]
   end
 end

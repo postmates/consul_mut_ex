@@ -2,8 +2,6 @@ defmodule ConsulMutEx.Supervisor do
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec
-
     # Initialize our storage
     ConsulMutEx.init()
 

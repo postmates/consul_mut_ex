@@ -3,7 +3,8 @@ defmodule ConsulMutEx do
 
   Examples:
 
-      iex> Application.put_env(:consul_mut_ex, :backend, :ets)
+      iex> Application.put_env(:consul_mut_ex, :backend, :consul)
+      iex> ConsulMutEx.init()
       iex> ConsulMutEx.lock("test_key", max_retries: 0) do
       ...>   :acquired
       ...> else
@@ -17,18 +18,15 @@ defmodule ConsulMutEx do
       ...>   :failed_to_acquire
       ...> end
       :failed_to_acquire
+      iex> ConsulMutEx.verify_lock(lock)
+      :ok
       iex> ConsulMutEx.release_lock(lock)
       :ok
+      iex> ConsulMutEx.verify_lock(lock)
+      {:error, nil}
   """
-  use Application
-  alias ConsulMutEx.Lock
 
-  @doc """
-  Runs at startup, gets the Supervisor going.
-  """
-  def start(_type, _args) do
-    ConsulMutEx.Supervisor.start_link()
-  end
+  alias ConsulMutEx.Lock
 
   @doc """
   Acquire a lock
@@ -44,6 +42,14 @@ defmodule ConsulMutEx do
   @spec release_lock(Lock.t) :: :ok
   def release_lock(lock) do
     get_backend().release_lock(lock)
+  end
+
+  @doc """
+  Verify a lock
+  """
+  @spec verify_lock(Lock.t) :: :ok | {:error, any()}
+  def verify_lock(lock) do
+    get_backend().verify_lock(lock)
   end
 
   @doc """
@@ -78,9 +84,9 @@ defmodule ConsulMutEx do
   @doc """
   Initialize the configured backend.
 
-  This will be called when this application is started.
-  If you change the backend after application is loaded,
-  you may need to call this manually.
+  Note: This will be called when this application is started.
+        If you change the backend after application is loaded,
+        you may need to call this manually.
   """
   @spec init() :: :ok
   def init() do
@@ -90,6 +96,7 @@ defmodule ConsulMutEx do
   defp get_backend() do
     case Application.get_env(:consul_mut_ex, :backend) do
       :ets -> ConsulMutEx.Backends.ETSBackend
+      :consul -> ConsulMutEx.Backends.ConsulBackend
     end
   end
 end
