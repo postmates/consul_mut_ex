@@ -95,6 +95,7 @@ open docs/index.html
 ## History
 
   * `v0.1.0` - Initial lock code works with ETS backend.
+  * `v0.2.0` - Supporting Consul as a backend.
 
 
 ## Contributing
