@@ -86,12 +86,6 @@ open docs/index.html
 ```
 
 
-## Coming Soon
-
- * __Consul as a backend__
- * __Polling__
-
-
 ## History
 
   * `v0.1.0` - Initial lock code works with ETS backend.
