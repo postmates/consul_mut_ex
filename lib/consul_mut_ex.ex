@@ -40,8 +40,8 @@ defmodule ConsulMutEx do
   Release a lock
   """
   @spec release_lock(Lock.t) :: :ok
-  def release_lock(lock) do
-    get_backend().release_lock(lock)
+  def release_lock(lock, opts \\ []) do
+    get_backend().release_lock(lock, opts)
   end
 
   @doc """
@@ -73,7 +73,7 @@ defmodule ConsulMutEx do
             unquote(do_clause)
           after
             # Release the lock
-            ConsulMutEx.release_lock(lock)
+            ConsulMutEx.release_lock(lock, opts)
           end
         :error ->
           unquote(else_clause)

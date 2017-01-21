@@ -52,8 +52,13 @@ defmodule ConsulMutEx.Backends.ConsulBackend do
   Release a lock.
   """
   @spec release_lock(Lock.t) :: :ok
-  def release_lock(lock) do
-    if Consul.Kv.put(lock.key, lock.session, release: lock.session) do
+  def release_lock(lock, opts \\ []) do
+    opts = case Keyword.get(opts, :delete, false) do
+      true -> [release: lock.session, delete: lock.key]
+      false -> [release: lock.session]
+    end
+
+    if Consul.Kv.put(lock.key, lock.session, opts) do
       :ok
     else
       :error
