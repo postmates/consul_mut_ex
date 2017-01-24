@@ -77,6 +77,29 @@ defmodule ConsulMutEx.Backends.ConsulBackend do
     end
   end
 
+
+  @doc """
+  Delete a key or all keys sharing a prefix.
+
+  ## Arguments:
+
+    * `key`: A key
+    * `opts`: Options
+      * `recurse`: if present, delete all keys which have the
+                   specified prefix
+      * `cas`: Used to turn delete into a Check-And-Set operation
+               If the index is non-zero, the key is only deleted
+               if the index matches the ModifyIndex of that key
+  """
+  @spec delete_key(String.t, keyword()) :: :ok
+  def delete_key(key, opts \\ []) do
+    if Consul.Kv.delete(key, opts) do
+      :ok
+    else
+      :error
+    end
+  end
+
   defp new_lock(key, session) do
     %ConsulMutEx.Lock{
       key: key,
