@@ -40,6 +40,16 @@ defmodule ConsulMutEx.Backends.ETSBackendTest do
     end
   end
 
+  describe "delete_key/2" do
+    test "successfully deletes key" do
+      key = new_key()
+      {:ok, _lock} = ETSBackend.acquire_lock(key)
+      assert :error == ETSBackend.acquire_lock(key, max_retries: 0)
+      assert :ok == ETSBackend.delete_key(key)
+      assert {:ok, _lock2} = ETSBackend.acquire_lock(key)
+    end
+  end
+
   describe "verify_lock/1" do
     test "successfully verifies lock" do
       {:ok, lock} = ETSBackend.acquire_lock(new_key())

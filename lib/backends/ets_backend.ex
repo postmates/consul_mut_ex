@@ -58,6 +58,17 @@ defmodule ConsulMutEx.Backends.ETSBackend do
   end
 
   @doc """
+  Delete a key
+  """
+  @spec delete_key(String.t, keyword()) :: :ok
+  def delete_key(key, opts \\ []) do
+     :ets.delete(@table, key)
+
+     :ok
+  end
+
+
+  @doc """
   Verify a lock.
   """
   @spec verify_lock(Lock.t) :: :ok | {:error, any()}

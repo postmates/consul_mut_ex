@@ -82,6 +82,15 @@ defmodule ConsulMutEx do
   end
 
   @doc """
+  Delete a key
+  """
+  @spec delete_key(String.t, keyword()) :: :ok
+  def delete_key(key, opts \\ []) do
+    get_backend().delete_key(key, opts)
+  end
+
+
+  @doc """
   Initialize the configured backend.
 
   Note: This will be called when this application is started.
