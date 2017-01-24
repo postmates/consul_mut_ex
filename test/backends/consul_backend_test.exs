@@ -40,6 +40,18 @@ defmodule ConsulMutEx.Backends.ConsulBackendTest do
     end
   end
 
+  describe "release_lock/2" do
+    test "successfully releases lock and deletes key" do
+      key = new_key()
+      {:ok, lock} = ConsulBackend.acquire_lock(key)
+      {:ok, _ } = Consul.Kv.fetch(key)
+      assert :ok == ConsulBackend.release_lock(lock, delete: true)
+      require IEx; IEx.pry
+      {:error, _ } = Consul.Kv.fetch(key)
+      assert {:ok, _lock2} = ConsulBackend.acquire_lock(key)
+    end
+  end
+
   describe "verify_lock/1" do
     test "successfully verifies lock" do
       {:ok, lock} = ConsulBackend.acquire_lock(new_key())

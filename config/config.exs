@@ -31,3 +31,7 @@ use Mix.Config
 # if Mix.env == :test do
 #   import_config "#{Mix.env}.exs"
 # end
+
+config :consul_mut_ex, :backend, :consul
+config :consul_mut_ex, :consul,
+  host: "http://localhost:8500"

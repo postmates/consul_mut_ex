@@ -50,8 +50,8 @@ defmodule ConsulMutEx.Backends.ETSBackend do
   @doc """
   Release a lock.
   """
-  @spec release_lock(Lock.t) :: :ok
-  def release_lock(lock) do
+  @spec release_lock(Lock.t, keyword()) :: :ok
+  def release_lock(lock, opts \\ []) do
      :ets.delete(@table, lock.key)
 
      :ok

@@ -3,27 +3,7 @@ defmodule ConsulMutEx do
 
   Examples:
 
-      iex> Application.put_env(:consul_mut_ex, :backend, :consul)
-      iex> ConsulMutEx.init()
-      iex> ConsulMutEx.lock("test_key", max_retries: 0) do
-      ...>   :acquired
-      ...> else
-      ...>   :failed_to_acquire
-      ...> end
-      :acquired
-      iex> {:ok, lock} = ConsulMutEx.acquire_lock("test_key", max_retries: 0)
-      iex> ConsulMutEx.lock("test_key", max_retries: 0) do
-      ...>   :acquired
-      ...> else
-      ...>   :failed_to_acquire
-      ...> end
-      :failed_to_acquire
-      iex> ConsulMutEx.verify_lock(lock)
-      :ok
-      iex> ConsulMutEx.release_lock(lock)
-      :ok
-      iex> ConsulMutEx.verify_lock(lock)
-      {:error, nil}
+
   """
 
   alias ConsulMutEx.Lock
@@ -39,7 +19,7 @@ defmodule ConsulMutEx do
   @doc """
   Release a lock
   """
-  @spec release_lock(Lock.t) :: :ok
+  @spec release_lock(Lock.t, keyword()) :: :ok
   def release_lock(lock, opts \\ []) do
     get_backend().release_lock(lock, opts)
   end
