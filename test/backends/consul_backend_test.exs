@@ -69,7 +69,7 @@ defmodule ConsulMutEx.Backends.ConsulBackendTest do
     test "successfully deletes key" do
       key = new_key()
       {:error, _ } = Consul.Kv.fetch(key)
-      {:ok, lock} = ConsulBackend.acquire_lock(key)
+      {:ok, _lock} = ConsulBackend.acquire_lock(key)
       {:ok, _ } = Consul.Kv.fetch(key)
       :ok = ConsulBackend.delete_key(key)
       {:error, _ } = Consul.Kv.fetch(key)
