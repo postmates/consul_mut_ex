@@ -45,6 +45,15 @@ config :consul_mut_ex, :consul,
   host: { :system, "CONSUL_HOST" }
 ```
 
+Initialize:
+
+```elixir
+iex> Application.put_env(:consul_mut_ex, :backend, :consul)
+:ok
+iex> ConsulMutEx.init()
+:ok
+```
+
 Pass in a `do...else` block:
 
 ```elixir
