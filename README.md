@@ -19,10 +19,7 @@ end
 
 ```elixir
 def application do
-  [
-    applications: [:consul_mut_ex],
-    mod: {ConsulMutEx.Supervisor, []}
-  ]
+  [applications: [:consul_mut_ex]]
 end
 ```
 
