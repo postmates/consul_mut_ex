@@ -110,6 +110,7 @@ open docs/index.html
 
   * `v0.1.0` - Initial lock code works with ETS backend.
   * `v0.2.0` - Supporting Consul as a backend.
+  * `v1.0.0` - Open source release
 
 
 ## Contributing
