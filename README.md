@@ -11,7 +11,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ```elixir
 def deps do
-    [{:consul_mut_ex, "~> 0.1.0"}]
+  [{:consul_mut_ex, "~> 0.1.0"}]
 end
 ```
 
@@ -19,7 +19,7 @@ end
 
 ```elixir
 def application do
-    [applications: [:consul_mut_ex]]
+  [applications: [:consul_mut_ex]]
 end
 ```
 
