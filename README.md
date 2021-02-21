@@ -11,7 +11,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ```elixir
 def deps do
-  [{:consul_mut_ex, "~> 0.1.0"}]
+  [{:consul_mut_ex, "~> 1.0.0"}]
 end
 ```
 
@@ -43,6 +43,15 @@ or through environment vars:
 ```elixir
 config :consul_mut_ex, :consul,
   host: { :system, "CONSUL_HOST" }
+```
+
+Initialize:
+
+```elixir
+iex> Application.put_env(:consul_mut_ex, :backend, :consul)
+:ok
+iex> ConsulMutEx.init()
+:ok
 ```
 
 Pass in a `do...else` block:

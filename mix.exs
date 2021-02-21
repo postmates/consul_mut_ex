@@ -22,8 +22,7 @@ defmodule ConsulMutEx.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :consul],
-     mod: {ConsulMutEx.Supervisor, []}]
+    [applications: [:logger, :consul]]
   end
 
   defp description do
@@ -42,9 +41,7 @@ defmodule ConsulMutEx.Mixfile do
   defp deps do
     [
       {:ex_doc, "~> 0.14", only: :dev},
-      # NOTE: This library's master branch does not have support for sessions
-      # and deleting kv so we're using a fork with the features we need.
-      {:consul, "~> 1.0.0", github: "jennhuang/consul-ex", override: true}
+      {:consul, "~> 1.1.0"}
     ]
   end
 
