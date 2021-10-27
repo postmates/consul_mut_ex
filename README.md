@@ -1,3 +1,6 @@
+# Now Archived and Forked
+_consul_mut_ex_ will not be maintained in this repository going forward. Please use, create issues on, and make PRs to the fork of _consul_mut_ex_ located [here](https://github.com/mager/consul_mut_ex).
+
 # ConsulMutEx
 
 _An Elixir module for acquiring and releasing locks with Consul and other backends._
